@@ -23,6 +23,13 @@ public class Scaler : MonoBehaviour
 
     void UpdateValues(float ctx)
     {
-        transform.localScale = 0.2f * new Vector3(momentOfInertiaX.Value, momentOfInertiaY.Value, momentOfInertiaZ.Value);;
+        transform.localScale = 0.2f*ScaleWhithMomentOfInertia();
+    }
+    Vector3 ScaleWhithMomentOfInertia() 
+    {
+        float x = Mathf.Sqrt(6 * momentOfInertiaY.Value) + Mathf.Sqrt(6 * momentOfInertiaZ.Value);
+        float y = Mathf.Sqrt(6 * momentOfInertiaX.Value) + Mathf.Sqrt(6 * momentOfInertiaZ.Value);
+        float z = Mathf.Sqrt(6 * momentOfInertiaY.Value) + Mathf.Sqrt(6 * momentOfInertiaX.Value);
+        return new Vector3(x, y, z);
     }
 }

@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Angularmomentum : MonoBehaviour
-{
+{   
+
     [SerializeField] private FloatVariable momentOfInertiaX;
     [SerializeField] private FloatVariable momentOfInertiaY;
     [SerializeField] private FloatVariable momentOfInertiaZ;
@@ -10,26 +11,31 @@ public class Angularmomentum : MonoBehaviour
     [SerializeField] private FloatVariable startAngularSpeedY;
     [SerializeField] private FloatVariable startAngularSpeedZ;
 
+    private Vector3 angularMomentum_c;
     private Vector3 momentOfInertia;
     private Vector3 angularSpeed;
 
     private Rigidbody rb;
 
     private void Start()
-    {
-
-        angularSpeed = new Vector3(startAngularSpeedX.Value, startAngularSpeedY.Value, startAngularSpeedZ.Value);
-        rb = GetComponent<Rigidbody>();
-        momentOfInertiaX.OnValueChange += UpdateValues;
-        momentOfInertiaY.OnValueChange += UpdateValues;
-        momentOfInertiaZ.OnValueChange += UpdateValues;
+    {   
         UpdateValues(float.NaN);
+        angularSpeed = new Vector3(startAngularSpeedX.Value, startAngularSpeedY.Value, startAngularSpeedZ.Value);
+        angularMomentum_c = new Vector3(momentOfInertia.x * angularSpeed.x,momentOfInertia.y * angularSpeed.y,momentOfInertia.z * angularSpeed.z);
+        
+        rb = GetComponent<Rigidbody>();
+        momentOfInertiaX.OnValueChange += ConservationOfAngularMomentum;
+        momentOfInertiaY.OnValueChange += ConservationOfAngularMomentum;
+        momentOfInertiaZ.OnValueChange += ConservationOfAngularMomentum;
+        
+        
+
     }
     private void OnDestroy()
     {
-        momentOfInertiaX.OnValueChange -= UpdateValues;
-        momentOfInertiaY.OnValueChange -= UpdateValues;
-        momentOfInertiaZ.OnValueChange -= UpdateValues;
+        momentOfInertiaX.OnValueChange -= ConservationOfAngularMomentum;
+        momentOfInertiaY.OnValueChange -= ConservationOfAngularMomentum;
+        momentOfInertiaZ.OnValueChange -= ConservationOfAngularMomentum;
     }
 
     private void FixedUpdate()
@@ -63,5 +69,10 @@ public class Angularmomentum : MonoBehaviour
     private void UpdateValues(float ctx)
     {
         momentOfInertia = new Vector3(momentOfInertiaX.Value, momentOfInertiaY.Value, momentOfInertiaZ.Value);
+    }
+    private void ConservationOfAngularMomentum(float ctx)
+    {
+        momentOfInertia = new Vector3(momentOfInertiaX.Value, momentOfInertiaY.Value, momentOfInertiaZ.Value);
+        angularSpeed = new Vector3(angularMomentum_c.x / momentOfInertia.x, angularMomentum_c.y / momentOfInertia.y,angularMomentum_c.z / momentOfInertia.z);
     }
 }

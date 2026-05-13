@@ -24,57 +24,21 @@ Unity physics 3D simulation of the intermidiate axis theorem and conservation of
 * **Architecture:** Use of ScriptableObjects for data managment.
 
 
-## Try it:
-* **[On the web.]( https://fontidar.github.io/Intermidiate-Axis-Theorem-simulation/)** 
- 
-* **Or on your PC:**
-
- 
- 📦 **[Descargar Ejecutable para Windows/Mac](#)** ---
-
-
-
+## Try it on the web:
+* **[Here]( https://fontidar.github.io/Intermidiate-Axis-Theorem-simulation/)** 
 ---
 
 
-## 🔬 Fundamentos Teóricos / Matemáticos
+## Theory:
 
-Si tu simulación se basa en ecuaciones específicas, explícalas brevemente aquí. Por ejemplo:
+Simulation based on the Euler ecuations for rigid bodys:
 
-La fuerza de atracción entre dos cuerpos se calcula usando la Ley de Gravitación Universal:
+$$I_1 \dot{\omega}_1 + (I_3 - I_2) \omega_2 \omega_3 = M_1$$
 
-$$F = G \frac{m_1 m_2}{r^2}$$
+$$I_2 \dot{\omega}_2 + (I_1 - I_3) \omega_3 \omega_1 = M_2$$
 
-* $F$ es la fuerza entre las masas.
-* $G$ es la constante de gravitación.
-* $r$ es la distancia entre los centros de las masas.
+$$I_3 \dot{\omega}_3 + (I_2 - I_1) \omega_1 \omega_2 = M_3$$
 
----
+Where we solve for $$\dot{\omega}_i$$ on void ($$M_i = 0 \space \forall \space i \in (1,2,3) $$)
 
-## ⚙️ Requisitos y Configuración
-
-Si decides clonar el repositorio para modificar el código:
-
-1.  **Unity Version:** `2022.3.X LTS` (o la que uses).
-2.  **Render Pipeline:** URP / HDRP / Built-in.
-3.  **Clonar el repositorio:**
-    ```bash
-    git clone [https://github.com/tu-usuario/tu-repositorio.git](https://github.com/tu-usuario/tu-repositorio.git)
-    ```
-
----
-
-## 🕹️ Controles de la Simulación
-
-| Tecla / Acción | Función |
-| :--- | :--- |
-| `Click Izquierdo` | Interactuar / Aplicar fuerza al objeto |
-| `Espacio` | Pausar / Reanudar la simulación |
-| `R` | Reiniciar el escenario a los valores por defecto |
-| `UI Sliders` | Ajustar la gravedad y la escala de tiempo |
-
----
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
+Solved with RungeKutta-4 Method. For fast and fairly acurrate solutions.
